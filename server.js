@@ -1,10 +1,14 @@
-const DB = require('./Dal/initDB');
 const express = require('express');
+const router = express.Router();
+const allRoutes = require("./Routes/AllRoutes.js")
 
-require('dotenv').config();
+const host = process.env.HOST;
+const port = process.env.PORT;
 
-const PORT = process.env.PORT || 3000;
+server.listen(port, host, () => {
+    console.log(`listening to requests at http://${host}:${port}`);
+});
 
-const app = express();
+//router.use('/', allRoutes)
 
-DB.createCommentsTable();
+
