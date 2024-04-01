@@ -12,7 +12,5 @@ router.use('/Users', UsersRoutes.router);
 
 
 
-module.exports = {
-    router: router,
-}; 
+module.exports = {router: router}; 
 

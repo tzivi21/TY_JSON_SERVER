@@ -1,5 +1,5 @@
-const DB_actions = require('../Dal/UsersCrud');
-// const validation=require('../modules/validation');
+const DB_actions = require('../dal/UsersCrud');
+const validation = require('../modules/validation');
  
 
 const UsersController = {
@@ -7,10 +7,10 @@ const UsersController = {
     createUser: async (req, res) => {
         try {
             const user  = req.body;
-            // if(!validation.validateUserData(user)){
+            if(!validation.validateUserInput(user)){
                 res.status(400).json({ error: 'invalid input' });
                 res.end();
-            // }
+            }
             const id=await DB_actions.createUser(user);
             res.status(200).json({...user,id:id}); 
             res.end();
@@ -51,9 +51,10 @@ const UsersController = {
         try {
             const { id } = req.params;
             const updatedUserData = req.body;
-            // if(!validation.validateUserData(updatedUserData)){
+            updatedUserData.id = id;
+            if(!validation.validateUserInput(updatedUserData, true)){
                 res.status(400).json({ error: 'invalid input' });
-            // }
+            }
             await DB_actions.updateUser(updatedUserData);
             res.status(200).json(updatedUserData);
             res.end();
@@ -68,7 +69,7 @@ const UsersController = {
         try {
             const { id } = req.params;
             await DB_actions.deleteUser(id);
-            res.status(200);
+            res.status(200).json({});
             res.end();
         } catch (error) {
             res.status(500).json({ error: error.message });

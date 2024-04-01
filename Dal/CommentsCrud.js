@@ -2,14 +2,14 @@ const mysql = require('mysql');
 require('dotenv').config();
 const Connect = require('./ConnectToDB');
 
-async function createUser(userData) {
+async function createComment(commentData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = 'INSERT INTO Users SET ?';
-        connection.query(sql, userData, (err, result) => {
+        const sql = 'INSERT INTO Comments SET ?';
+        connection.query(sql, commentData, (err, result) => {
             connection.end();
             if (err) {
-                reject(new Error('Error inserting new user:' + err));
+                reject(new Error('Error inserting new comment:' + err));
             } else {
                 resolve(result.insertId);
             }
@@ -17,14 +17,14 @@ async function createUser(userData) {
     });
 }
 
-async function deleteUser(id) {
+async function deleteComment(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `DELETE FROM Users WHERE id = ${id}`;
+        const sql = `DELETE FROM Comments WHERE id = ${id}`;
         connection.query(sql, (err, result) => {
             connection.end();
             if (err) {
-                reject(new Error(`Error deleting user with id:${id}` + err));
+                reject(new Error(`Error deleting comment with id:${id}` + err));
             } else {
                 resolve();
             }
@@ -32,14 +32,14 @@ async function deleteUser(id) {
     });
 }
 
-async function updateUser(updatedUserData) {
+async function updateComment(updatedCommentData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = 'UPDATE Users SET ? WHERE id = ?';
-        connection.query(sql, [updatedUserData, updatedUserData.id], (err, result) => {
+        const sql = 'UPDATE Comments SET ? WHERE id = ?';
+        connection.query(sql, [updatedCommentData, updatedCommentData.id], (err, result) => {
             connection.end();
             if (err) {
-                reject(new Error('Error updating user:' + err));
+                reject(new Error('Error updating comment:' + err));
             } else {
                 resolve();
             }
@@ -47,10 +47,10 @@ async function updateUser(updatedUserData) {
     });
 }
 
-async function getAllUsers() {
+async function getAllComments() {
      return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = 'SELECT * FROM Users';
+        const sql = 'SELECT * FROM Comments';
         connection.query(sql, (err, result) => {
             connection.end();
             if (err) {
@@ -62,10 +62,10 @@ async function getAllUsers() {
     });
 }
 
-async function getUserById(id) {
+async function getCommentById(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `SELECT * FROM Users WHERE id = ${id}`;
+        const sql = `SELECT * FROM Comments WHERE id = ${id}`;
         connection.query(sql, (err, result) => {
             connection.end();
             if (err) {
@@ -78,9 +78,9 @@ async function getUserById(id) {
 }
 
 module.exports = {
-   createUser,
-   getAllUsers,
-   getUserById,
-   deleteUser,
-   updateUser
+   createComment,
+   getAllComments,
+   getCommentById,
+   deleteComment,
+   updateComment
 };
