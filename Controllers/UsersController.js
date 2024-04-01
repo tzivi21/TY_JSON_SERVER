@@ -49,11 +49,12 @@ const UsersController = {
     
     updateUser: async (req, res) => {
         try {
-            const { id } = req.params;
+            const { id } = req.params; //hub
             const updatedUserData = req.body;
-            // if(!validation.validateUserData(updatedUserData)){
+            updatedUserData.id = id;
+            if(!validation.validateUserInput(updatedUserData, true)){
                 res.status(400).json({ error: 'invalid input' });
-            // }
+            }
             await DB_actions.updateUser(updatedUserData);
             res.status(200).json(updatedUserData);
             res.end();
@@ -68,7 +69,7 @@ const UsersController = {
         try {
             const { id } = req.params;
             await DB_actions.deleteUser(id);
-            res.status(200);
+            res.status(200).json({});
             res.end();
         } catch (error) {
             res.status(500).json({ error: error.message });
