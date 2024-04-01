@@ -2,14 +2,14 @@ const mysql = require('mysql');
 require('dotenv').config();
 const Connect = require('./ConnectToDB');
 
-async function createUser(userData) {
+async function createTodo(todoData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = 'INSERT INTO Users SET ?';
-        connection.query(sql, userData, (err, result) => {
+        const sql = 'INSERT INTO Todos SET ?';
+        connection.query(sql, todoData, (err, result) => {
             connection.end();
             if (err) {
-                reject(new Error('Error inserting new user:' + err));
+                reject(new Error('Error inserting new todo:' + err));
             } else {
                 resolve(result.insertId);
             }
@@ -17,14 +17,14 @@ async function createUser(userData) {
     });
 }
 
-async function deleteUser(id) {
+async function deleteTodo(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `DELETE FROM Users WHERE id = ${id}`;
+        const sql = `DELETE FROM Todos WHERE id = ${id}`;
         connection.query(sql, (err, result) => {
             connection.end();
             if (err) {
-                reject(new Error(`Error deleting user with id:${id}` + err));
+                reject(new Error(`Error deleting todo with id:${id}` + err));
             } else {
                 resolve();
             }
@@ -32,14 +32,14 @@ async function deleteUser(id) {
     });
 }
 
-async function updateUser(updatedUserData) {
+async function updateTodo(updatedTodoData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = 'UPDATE Users SET ? WHERE id = ?';
-        connection.query(sql, [updatedUserData, updatedUserData.id], (err, result) => {
+        const sql = 'UPDATE Todos SET ? WHERE id = ?';
+        connection.query(sql, [updatedTodoData, updatedTodoData.id], (err, result) => {
             connection.end();
             if (err) {
-                reject(new Error('Error updating user:' + err));
+                reject(new Error('Error updating todo:' + err));
             } else {
                 resolve();
             }
@@ -47,10 +47,10 @@ async function updateUser(updatedUserData) {
     });
 }
 
-async function getAllUsers() {
+async function getAllTodos() {
      return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = 'SELECT * FROM Users';
+        const sql = 'SELECT * FROM Todos';
         connection.query(sql, (err, result) => {
             connection.end();
             if (err) {
@@ -62,10 +62,10 @@ async function getAllUsers() {
     });
 }
 
-async function getUserById(id) {
+async function getTodoById(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `SELECT * FROM Users WHERE id = ${id}`;
+        const sql = `SELECT * FROM Todos WHERE id = ${id}`;
         connection.query(sql, (err, result) => {
             connection.end();
             if (err) {
@@ -78,9 +78,9 @@ async function getUserById(id) {
 }
 
 module.exports = {
-   createUser,
-   getAllUsers,
-   getUserById,
-   deleteUser,
-   updateUser
+   createTodo,
+   getAllTodos,
+   getTodoById,
+   deleteTodo,
+   updateTodo
 };

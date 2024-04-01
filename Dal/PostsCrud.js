@@ -2,14 +2,14 @@ const mysql = require('mysql');
 require('dotenv').config();
 const Connect = require('./ConnectToDB');
 
-async function createUser(userData) {
+async function createPost(postData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = 'INSERT INTO Users SET ?';
-        connection.query(sql, userData, (err, result) => {
+        const sql = 'INSERT INTO Posts SET ?';
+        connection.query(sql, postData, (err, result) => {
             connection.end();
             if (err) {
-                reject(new Error('Error inserting new user:' + err));
+                reject(new Error('Error inserting new post:' + err));
             } else {
                 resolve(result.insertId);
             }
@@ -17,14 +17,14 @@ async function createUser(userData) {
     });
 }
 
-async function deleteUser(id) {
+async function deletePost(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `DELETE FROM Users WHERE id = ${id}`;
+        const sql = `DELETE FROM Posts WHERE id = ${id}`;
         connection.query(sql, (err, result) => {
             connection.end();
             if (err) {
-                reject(new Error(`Error deleting user with id:${id}` + err));
+                reject(new Error(`Error deleting post with id:${id}` + err));
             } else {
                 resolve();
             }
@@ -32,14 +32,14 @@ async function deleteUser(id) {
     });
 }
 
-async function updateUser(updatedUserData) {
+async function updatePost(updatedPostData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = 'UPDATE Users SET ? WHERE id = ?';
-        connection.query(sql, [updatedUserData, updatedUserData.id], (err, result) => {
+        const sql = 'UPDATE Posts SET ? WHERE id = ?';
+        connection.query(sql, [updatedPostData, updatedPostData.id], (err, result) => {
             connection.end();
             if (err) {
-                reject(new Error('Error updating user:' + err));
+                reject(new Error('Error updating post:' + err));
             } else {
                 resolve();
             }
@@ -47,10 +47,10 @@ async function updateUser(updatedUserData) {
     });
 }
 
-async function getAllUsers() {
+async function getAllPosts() {
      return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = 'SELECT * FROM Users';
+        const sql = 'SELECT * FROM Posts';
         connection.query(sql, (err, result) => {
             connection.end();
             if (err) {
@@ -62,10 +62,10 @@ async function getAllUsers() {
     });
 }
 
-async function getUserById(id) {
+async function getPostById(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `SELECT * FROM Users WHERE id = ${id}`;
+        const sql = `SELECT * FROM Posts WHERE id = ${id}`;
         connection.query(sql, (err, result) => {
             connection.end();
             if (err) {
@@ -78,9 +78,9 @@ async function getUserById(id) {
 }
 
 module.exports = {
-   createUser,
-   getAllUsers,
-   getUserById,
-   deleteUser,
-   updateUser
+   createPost,
+   getAllPosts,
+   getPostById,
+   deletePost,
+   updatePost
 };
