@@ -1,5 +1,5 @@
 const UsersCrud = require('./dal/UsersCrud');
-const PostsCrud = require('./dal/PostsCrud');
+const PostsCrud = require('./Dal/PostsCrud');
 const db= require('./dal/initDB');
 (async () => {
     const a = await UsersCrud.createUser({
