@@ -11,8 +11,8 @@ const UsersController = {
                 res.status(400).json({ error: 'invalid input' });
                 res.end();
             // }
-            await DB_actions.createUser(user);
-            res.status(200).json(user); // צריך לשנות שיחזיר גם את המספר הרץ שנוצר
+            const id=await DB_actions.createUser(user);
+            res.status(200).json({...user,id:id}); 
             res.end();
             
         } catch (error) {
@@ -54,7 +54,7 @@ const UsersController = {
             // if(!validation.validateUserData(updatedUserData)){
                 res.status(400).json({ error: 'invalid input' });
             // }
-            updatedUserData = await DB_actions.updateUser(updatedUserData);
+            await DB_actions.updateUser(updatedUserData);
             res.status(200).json(updatedUserData);
             res.end();
         } catch (error) {

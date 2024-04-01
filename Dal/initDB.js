@@ -21,27 +21,6 @@ const createDB = () => {
   });
 }
 
-const dropPasswordFromUsersTable = () => {
-  const config = {
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DB,
-  };
-
-  const connection = mysql.createConnection(config);
-  const createUsersTable = `
-    ALTER TABLE Users
-    DROP COLUMN password;
-    `;
-
-  connection.query(createUsersTable, (err, result) => {
-    if (err) throw err;
-    console.log("Password column has been removed successfully");
-    connection.end();
-  });
-}
-
 const createUsersTable = () => {
   const config = {
     host: process.env.HOST,
@@ -53,7 +32,7 @@ const createUsersTable = () => {
   const connection = mysql.createConnection(config);
   const createUsersTable = `
         CREATE TABLE  IF NOT EXISTS Users (
-            id INT PRIMARY KEY,
+            id INT AUTO_INCREMENT PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL,
             city VARCHAR(255),
@@ -81,7 +60,7 @@ const createPostsTable = () => {
   const createPostsTable = `
         CREATE TABLE IF NOT EXISTS Posts (
            userId INT NOT NULL,
-           id INT PRIMARY KEY,
+           id INT AUTO_INCREMENT PRIMARY KEY,
            title VARCHAR(255) NOT NULL,
            body VARCHAR(255),
            FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE
@@ -107,7 +86,7 @@ const createTodosTable = () => {
   const createTodosTable = `
         CREATE TABLE IF NOT EXISTS Todos (
            userId INT NOT NULL,
-           id INT PRIMARY KEY,
+           id INT AUTO_INCREMENT PRIMARY KEY,
            title VARCHAR(255) NOT NULL,
            completed BOOLEAN NOT NULL,
            FOREIGN KEY (userId) REFERENCES Users(id) ON DELETE CASCADE
@@ -133,7 +112,7 @@ const createCommentsTable = () => {
   const createCommentsTable = `
         CREATE TABLE IF NOT EXISTS Comments (
            postId INT NOT NULL,
-           id INT PRIMARY KEY,
+           id INT AUTO_INCREMENT PRIMARY KEY,
            name VARCHAR(255) NOT NULL,
            email VARCHAR(255) NOT NULL,
            body VARCHAR(255) NOT NULL,
@@ -179,6 +158,5 @@ module.exports = {
   createTodosTable,
   createCommentsTable,
   createPasswordsTable,
-  dropPasswordFromUsersTable,
-  createDB,
+  createDB
 };
