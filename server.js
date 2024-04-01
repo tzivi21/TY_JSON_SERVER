@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/', allRoutes.router);
+app.use('/', allRoutes);
 
 
 const host = process.env.HOST;

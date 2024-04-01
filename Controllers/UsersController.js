@@ -1,5 +1,5 @@
-const DB_actions = require('../Dal/UsersCrud');
-// const validation=require('../modules/validation');
+const DB_actions = require('../dal/UsersCrud');
+const validation = require('../modules/validation');
  
 
 const UsersController = {
@@ -7,10 +7,10 @@ const UsersController = {
     createUser: async (req, res) => {
         try {
             const user  = req.body;
-            // if(!validation.validateUserData(user)){
+            if(!validation.validateUserInput(user)){
                 res.status(400).json({ error: 'invalid input' });
                 res.end();
-            // }
+            }
             const id=await DB_actions.createUser(user);
             res.status(200).json({...user,id:id}); 
             res.end();
