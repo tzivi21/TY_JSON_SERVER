@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const TodosController = require("../Controllers//TodosController");
+const TodosController = require("../Controllers/TodosController");
 
 router.get('/', TodosController.getAllTodos);
 
