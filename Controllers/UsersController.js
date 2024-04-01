@@ -49,7 +49,7 @@ const UsersController = {
     
     updateUser: async (req, res) => {
         try {
-            const { id } = req.params;
+            const { id } = req.params; //hub
             const updatedUserData = req.body;
             updatedUserData.id = id;
             if(!validation.validateUserInput(updatedUserData, true)){
