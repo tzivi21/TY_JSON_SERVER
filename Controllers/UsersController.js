@@ -51,7 +51,6 @@ const UsersController = {
         try {
             const { id } = req.params; //hub
             const updatedUserData = req.body;
-            updatedUserData.id = id;
             if(!validation.validateUserInput(updatedUserData, true)){
                 res.status(400).json({ error: 'invalid input' });
             }
