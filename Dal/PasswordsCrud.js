@@ -20,8 +20,8 @@ async function createPassword(passwordData) {
 async function deletePassword(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `DELETE FROM Passwords WHERE id = ${id}`;
-        connection.query(sql, (err, result) => {
+        const sql = `DELETE FROM Passwords WHERE id = ?`;
+        connection.query(sql, [id], (err, result) => {
             connection.end();
             if (err) {
                 reject(new Error(`Error deleting password of id:${id}` + err));
@@ -65,8 +65,8 @@ async function getAllPasswords() {
 async function getPasswordById(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `SELECT * FROM Passwords WHERE id = ${id}`;
-        connection.query(sql, (err, result) => {
+        const sql = `SELECT * FROM Passwords WHERE id = ?`;
+        connection.query(sql,[id] ,(err, result) => {
             connection.end();
             if (err) {
                 reject(err);

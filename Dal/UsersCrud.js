@@ -5,13 +5,14 @@ const Connect = require('./ConnectToDB');
 async function createUser(userData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = 'INSERT INTO Users SET ?';
-        connection.query(sql, userData, (err, result) => {
+        let sql = 'INSERT INTO Users SET ?';
+        connection.query(sql, userData, async (err, result) => {
             connection.end();
             if (err) {
                 reject(new Error('Error inserting new user:' + err));
             } else {
-                resolve(result.insertId);
+                newUser = await getUserById(result.insertId);
+                resolve(result);
             }
         });
     });
@@ -20,8 +21,8 @@ async function createUser(userData) {
 async function deleteUser(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `DELETE FROM Users WHERE id = ${id}`;
-        connection.query(sql, (err, result) => {
+        const sql = `DELETE FROM Users WHERE id = ?`;
+        connection.query(sql, [id], (err, result) => {
             connection.end();
             if (err) {
                 reject(new Error(`Error deleting user with id:${id}` + err));
@@ -36,12 +37,14 @@ async function updateUser(updatedUserData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
         const sql = 'UPDATE Users SET ? WHERE id = ?';
-        connection.query(sql, [updatedUserData, updatedUserData.id], (err, result) => {
+        connection.query(sql, [updatedUserData, updatedUserData.id], async (err, result) => {
+            console.log(result);
             connection.end();
             if (err) {
                 reject(new Error('Error updating user:' + err));
             } else {
-                resolve();
+                updatedUser = await getUserById(updatedUserData.id);
+                resolve(updatedUser);
             }
         });
     });
@@ -65,8 +68,9 @@ async function getAllUsers() {
 async function getUserById(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `SELECT * FROM Users WHERE id = ${id}`;
-        connection.query(sql, (err, result) => {
+        const sql = `SELECT * FROM Users WHERE id = ?`;
+        connection.query(sql, [id], (err, result) => {
+            console.log(result);
             connection.end();
             if (err) {
                 reject(err);
@@ -75,6 +79,37 @@ async function getUserById(id) {
             }
         });
     });
+    
+}
+
+async function getUserPosts(id) {
+    return new Promise((resolve, reject) => {
+       const connection = Connect();
+       const sql = `SELECT * FROM Posts WHERE user_id = ?`;
+       connection.query(sql,[id], (err, result) => {
+           connection.end();
+           if (err) {
+               reject(err);
+           } else {
+               resolve(result);
+           }
+       });
+   });
+}
+
+async function getUserTodos(id) {
+    return new Promise((resolve, reject) => {
+       const connection = Connect();
+       const sql = `SELECT * FROM Todos WHERE user_id = ?`;
+       connection.query(sql,[id], (err, result) => {
+           connection.end();
+           if (err) {
+               reject(err);
+           } else {
+               resolve(result);
+           }
+       });
+   });
 }
 
 module.exports = {
@@ -82,5 +117,7 @@ module.exports = {
    getAllUsers,
    getUserById,
    deleteUser,
-   updateUser
+   updateUser,
+   getUserPosts,
+   getUserTodos
 };

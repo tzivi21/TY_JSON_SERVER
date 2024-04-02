@@ -20,8 +20,8 @@ async function createComment(commentData) {
 async function deleteComment(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `DELETE FROM Comments WHERE id = ${id}`;
-        connection.query(sql, (err, result) => {
+        const sql = `DELETE FROM Comments WHERE id = ?`;
+        connection.query(sql, [id], (err, result) => {
             connection.end();
             if (err) {
                 reject(new Error(`Error deleting comment with id:${id}` + err));
@@ -65,8 +65,8 @@ async function getAllComments() {
 async function getCommentById(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `SELECT * FROM Comments WHERE id = ${id}`;
-        connection.query(sql, (err, result) => {
+        const sql = `SELECT * FROM Comments WHERE id = ?`;
+        connection.query(sql, [id], (err, result) => {
             connection.end();
             if (err) {
                 reject(err);

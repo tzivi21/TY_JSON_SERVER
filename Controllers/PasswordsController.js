@@ -1,5 +1,5 @@
 const DB_actions = require('../Dal/PasswordsCrud');
-// const validation=require('../modules/validation');
+const validation=require('../modules/validation');
  
 
 const PasswordsController = {
@@ -7,16 +7,16 @@ const PasswordsController = {
     createPassword: async (req, res) => {
         try {
             const password  = req.body;
-            // if(!validation.validateUserData(user)){
+            if(!validation.validatePasswordInput(password)){
                 res.status(400).json({ error: 'invalid input' });
                 res.end();
-            // }
+            }
             const id=await DB_actions.createPassword(password);
             res.status(200).json({...password,id:id}); 
             res.end();
             
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "server internal error" });
             res.end();
         }
     },
@@ -28,7 +28,7 @@ const PasswordsController = {
             res.status(200).json(passwords);
             res.end();
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "server internal error" });
             res.end();
         }
     },
@@ -41,7 +41,7 @@ const PasswordsController = {
             res.status(200).json(password);
             res.end();
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "server internal error" });
             res.end();
         }
     },
@@ -51,14 +51,14 @@ const PasswordsController = {
         try {
             const { id } = req.params;
             const updatedPasswordData = req.body;
-            // if(!validation.validateUserData(updatedUserData)){
+            if(!validation.validatePasswordInput(updatedPasswordData, true)){
                 res.status(400).json({ error: 'invalid input' });
-            // }
+            }
             await DB_actions.updatePassword(updatedPasswordData);
             res.status(200).json(updatedPasswordData);
             res.end();
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "server internal error" });
             res.end();
         }
     },
@@ -68,10 +68,10 @@ const PasswordsController = {
         try {
             const { id } = req.params;
             await DB_actions.deletePassword(id);
-            res.status(200);
+            res.status(200).json({});
             res.end();
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "server internal error" });
             res.end();
         }
     }

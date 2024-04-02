@@ -1,5 +1,5 @@
 const DB_actions = require('../Dal/TodosCrud');
-// const validation=require('../modules/validation');
+const validation=require('../modules/validation');
  
 
 const TodosController = {
@@ -7,16 +7,16 @@ const TodosController = {
     createTodo: async (req, res) => {
         try {
             const todo  = req.body;
-            // if(!validation.validateUserData(user)){
+            if(!validation.validateTodoInput(todo)){
                 res.status(400).json({ error: 'invalid input' });
                 res.end();
-            // }
+            }
             const id=await DB_actions.createTodo(todo);
             res.status(200).json({...todo,id:id}); 
             res.end();
             
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "server internal error" });
             res.end();
         }
     },
@@ -28,7 +28,7 @@ const TodosController = {
             res.status(200).json(todos);
             res.end();
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "server internal error" });
             res.end();
         }
     },
@@ -41,7 +41,7 @@ const TodosController = {
             res.status(200).json(todo);
             res.end();
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "server internal error" });
             res.end();
         }
     },
@@ -51,14 +51,14 @@ const TodosController = {
         try {
             const { id } = req.params;
             const updatedTodoData = req.body;
-            // if(!validation.validateUserData(updatedUserData)){
+            if(!validation.validateTodoInput(updatedTodoData, true)){
                 res.status(400).json({ error: 'invalid input' });
-            // }
+            }
             await DB_actions.updateTodo(updatedTodoData);
             res.status(200).json(updatedTodoData);
             res.end();
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "server internal error" });
             res.end();
         }
     },
@@ -68,10 +68,10 @@ const TodosController = {
         try {
             const { id } = req.params;
             await DB_actions.deleteTodo(id);
-            res.status(200);
+            res.status(200).json({});
             res.end();
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            res.status(500).json({ error: "server internal error" });
             res.end();
         }
     }

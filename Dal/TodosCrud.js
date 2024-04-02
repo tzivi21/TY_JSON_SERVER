@@ -20,8 +20,8 @@ async function createTodo(todoData) {
 async function deleteTodo(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `DELETE FROM Todos WHERE id = ${id}`;
-        connection.query(sql, (err, result) => {
+        const sql = `DELETE FROM Todos WHERE id = ?`;
+        connection.query(sql, [id], (err, result) => {
             connection.end();
             if (err) {
                 reject(new Error(`Error deleting todo with id:${id}` + err));
@@ -65,8 +65,8 @@ async function getAllTodos() {
 async function getTodoById(id) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
-        const sql = `SELECT * FROM Todos WHERE id = ${id}`;
-        connection.query(sql, (err, result) => {
+        const sql = `SELECT * FROM Todos WHERE id = ?`;
+        connection.query(sql, [id], (err, result) => {
             connection.end();
             if (err) {
                 reject(err);

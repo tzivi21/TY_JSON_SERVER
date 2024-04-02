@@ -1,17 +1,17 @@
 const express = require("express");
-const router = express.Router();
+const app = express.Router();
 const PasswordsController = require("../Controllers/PasswordsController");
 
-router.get('/', PasswordsController.getAllPasswords);
+app.get('/', PasswordsController.getAllPasswords);
 
-router.get(':id', PasswordsController.getPasswordById);
+app.get('/:id', PasswordsController.getPasswordById);
 
-router.post('/', PasswordsController.createPassword);
+app.post('/', PasswordsController.createPassword);
 
-router.put('/:id', PasswordsController.updatePassword);
+app.put('/:id', PasswordsController.updatePassword);
 
-router.delete('/:id', PasswordsController.deletePassword);
+app.delete('/:id', PasswordsController.deletePassword);
 
 
-module.exports = router; 
+module.exports = app; 
 

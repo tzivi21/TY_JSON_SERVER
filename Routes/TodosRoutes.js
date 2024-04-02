@@ -1,17 +1,17 @@
 const express = require("express");
-const router = express.Router();
+const app = express.Router();
 const TodosController = require("../Controllers/TodosController");
 
-router.get('/', TodosController.getAllTodos);
+app.get('/', TodosController.getAllTodos);
 
-router.get(':id', TodosController.getTodoById);
+app.get('/:id', TodosController.getTodoById);
 
-router.post('/', TodosController.createTodo);
+app.post('/', TodosController.createTodo);
 
-router.put('/:id', TodosController.updateTodo);
+app.put('/:id', TodosController.updateTodo);
 
-router.delete('/:id', TodosController.deleteTodo);
+app.delete('/:id', TodosController.deleteTodo);
 
 
-module.exports = router; 
+module.exports = app; 
 
