@@ -104,7 +104,7 @@ function validateCommentInput(comment, isIdRequired = false) {
   return true;
 }
 
-function validatePasswordInput(password, isIdRequired = false) {
+function validatePasswordInput(password, isIdRequired = true) {
   if (!password || typeof password !== "object") return false;
 
   // Check for required fields
@@ -114,7 +114,7 @@ function validatePasswordInput(password, isIdRequired = false) {
   }
 
   requiredFields.forEach((field) => {
-    if (!(field in comment)) return false;
+    if (!(field in password)) return false;
   });
 
   // Check if password is a non-empty string
@@ -146,5 +146,6 @@ module.exports = {
   validateTodoInput,
   validatePostInput,
   validateCommentInput,
-  validatePasswordInput
+  validatePasswordInput,
+  validateLoginInput
 };

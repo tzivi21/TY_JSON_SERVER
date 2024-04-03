@@ -12,7 +12,7 @@ async function createUser(userData) {
                 reject(new Error('Error inserting new user:' + err));
             } else {
                 newUser = await getUserById(result.insertId);
-                resolve(result);
+                resolve(newUser);
             }
         });
     });
@@ -43,7 +43,7 @@ async function updateUser(updatedUserData) {
             if (err) {
                 reject(new Error('Error updating user:' + err));
             } else {
-                updatedUser = await getUserById(updatedUserData.id);
+                let updatedUser = await getUserById(updatedUserData.id);
                 resolve(updatedUser);
             }
         });
@@ -85,7 +85,7 @@ async function getUserById(id) {
 async function getUserPosts(id) {
     return new Promise((resolve, reject) => {
        const connection = Connect();
-       const sql = `SELECT * FROM Posts WHERE user_id = ?`;
+       const sql = `SELECT * FROM Posts WHERE userId = ?`;
        connection.query(sql,[id], (err, result) => {
            connection.end();
            if (err) {
@@ -100,7 +100,7 @@ async function getUserPosts(id) {
 async function getUserTodos(id) {
     return new Promise((resolve, reject) => {
        const connection = Connect();
-       const sql = `SELECT * FROM Todos WHERE user_id = ?`;
+       const sql = `SELECT * FROM Todos WHERE userId = ?`;
        connection.query(sql,[id], (err, result) => {
            connection.end();
            if (err) {

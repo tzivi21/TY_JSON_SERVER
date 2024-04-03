@@ -36,12 +36,13 @@ async function updateTodo(updatedTodoData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
         const sql = 'UPDATE Todos SET ? WHERE id = ?';
-        connection.query(sql, [updatedTodoData, updatedTodoData.id], (err, result) => {
+        connection.query(sql, [updatedTodoData, updatedTodoData.id], async (err, result) => {
             connection.end();
             if (err) {
                 reject(new Error('Error updating todo:' + err));
             } else {
-                resolve();
+                let updatedTodo = await getTodoById(updatedTodoData.id);
+                resolve(updatedTodo);
             }
         });
     });

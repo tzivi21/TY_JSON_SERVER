@@ -36,12 +36,13 @@ async function updatePost(updatedPostData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
         const sql = 'UPDATE Posts SET ? WHERE id = ?';
-        connection.query(sql, [updatedPostData, updatedPostData.id], (err, result) => {
+        connection.query(sql, [updatedPostData, updatedPostData.id], async (err, result) => {
             connection.end();
             if (err) {
                 reject(new Error('Error updating post:' + err));
             } else {
-                resolve();
+                let updatedPost = await getPostById(updatedPostData.id);
+                resolve(updatedPost);
             }
         });
     });

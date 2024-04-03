@@ -36,12 +36,13 @@ async function updatePassword(updatedPasswordData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
         const sql = 'UPDATE Passwords SET ? WHERE id = ?';
-        connection.query(sql, [updatedPasswordData, updatedPasswordData.id], (err, result) => {
+        connection.query(sql, [updatedPasswordData, updatedPasswordData.id], async (err, result) => {
             connection.end();
             if (err) {
                 reject(new Error('Error updating password:' + err));
             } else {
-                resolve();
+                let updatedPassword = await getPasswordById(updatedPasswordData.id);
+                resolve(updatedPassword);
             }
         });
     });

@@ -36,12 +36,13 @@ async function updateComment(updatedCommentData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
         const sql = 'UPDATE Comments SET ? WHERE id = ?';
-        connection.query(sql, [updatedCommentData, updatedCommentData.id], (err, result) => {
+        connection.query(sql, [updatedCommentData, updatedCommentData.id], async (err, result) => {
             connection.end();
             if (err) {
                 reject(new Error('Error updating comment:' + err));
             } else {
-                resolve();
+                let updatedComment = await getCommentById(updatedCommentData.id);
+                resolve(updatedComment);
             }
         });
     });

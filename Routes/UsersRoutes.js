@@ -36,6 +36,10 @@ app.get('/:id', async (req, res) => {
 app.get('/:id/todos', async (req, res) => {
     try {
         const { id } = req.params;
+        if(await UsersController.getUserById(id)==null) {
+            res.status(404).json({ error: "user not found" });
+            res.end();
+        }
         let todos = await UsersController.getUserTodos(id);
         res.status(200).json(todos);
         res.end();
@@ -48,6 +52,10 @@ app.get('/:id/todos', async (req, res) => {
 app.get('/:id/posts', async (req, res) => {
     try {
         const { id } = req.params;
+        if(await UsersController.getUserById(id)==null) {
+            res.status(404).json({ error: "user not found" });
+            res.end();
+        }
         let posts = await UsersController.getUserPosts(id);
         res.status(200).json(posts);
         res.end();
@@ -79,17 +87,17 @@ app.post('/', async (req, res) => {
 app.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const updatedUserData = req.body;
+        let updatedUserData = req.body;
         if(!validation.validateUserInput(updatedUserData, true)){
             res.status(400).json({ error: 'invalid input' });
             res.end();
         }
-        else if(!UsersController.getUserById(id)) {
+        else if(await UsersController.getUserById(id)==null) {
             res.status(404).json({ error: "user not found" });
             res.end();
         }
         else {
-            updatedUserData = UsersController.updateUser(updatedUserData);
+            updatedUserData =await UsersController.updateUser(updatedUserData);
             res.status(200).json(updatedUserData);
             res.end();
         }
@@ -102,12 +110,12 @@ app.put('/:id', async (req, res) => {
 app.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        if(!UsersController.getUserById(id)) {
+        if(await UsersController.getUserById(id)==null) {
             res.status(404).json({ error: "user not found" });
             res.end();
         }
         else {
-            await UsersController.getUserById(id);
+            await UsersController.deleteUser(id);
             res.status(200).json({});
             res.end();
         }

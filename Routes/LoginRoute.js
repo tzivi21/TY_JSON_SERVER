@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
     }
     else {
         res.status(200)
-        res.Headers.set('Authentication-Token', token);
+        res.setHeader('Authentication-Token', token);
         res.end();
     }
 
