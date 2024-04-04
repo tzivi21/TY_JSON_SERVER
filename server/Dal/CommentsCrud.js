@@ -6,12 +6,13 @@ async function createComment(commentData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
         const sql = 'INSERT INTO Comments SET ?';
-        connection.query(sql, commentData, (err, result) => {
+        connection.query(sql, commentData, async (err, result) => {
             connection.end();
             if (err) {
                 reject(new Error('Error inserting new comment:' + err));
             } else {
-                resolve(result.insertId);
+                const newComment = await getCommentById(result.insertId);
+                resolve(newComment);
             }
         });
     });

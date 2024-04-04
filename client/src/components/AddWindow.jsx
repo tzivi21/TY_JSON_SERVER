@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import styles from "../css/AddWindow.module.css";
 
-function AddWindow({ setIsAddWindowShow, baseItem, propertiesArr, url, setFilteredItems, setAllItems }) {
+function AddWindow({ token, setIsAddWindowShow, baseItem, propertiesArr, url, setFilteredItems, setAllItems }) {
   const [input, setInput] = useState({ ...baseItem });
 
   function handleSubmit(e) {
@@ -12,6 +12,7 @@ function AddWindow({ setIsAddWindowShow, baseItem, propertiesArr, url, setFilter
           method: "POST",
           headers: {
             "Content-type": "application/json",
+            "Authentication-Token": token
           },
           body: JSON.stringify(input),
         });

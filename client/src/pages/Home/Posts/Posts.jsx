@@ -5,7 +5,7 @@ import Filters from '../../../components/Filters'
 import AddWindow from '../../../components/AddWindow';
 import styles from '../../../css/Posts.module.css'
 
-function Posts() {
+function Posts({token}) {
 
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
@@ -38,9 +38,9 @@ function Posts() {
               <p className={styles.postTitle}>{post.title}</p>
             </div>)}
         </div>}
-        {currentSelectedPost && <SinglePostWindow generalDataAndTools={{ ...generalDataAndTools }} post={currentSelectedPost} setCurrentSelectedPost={setCurrentSelectedPost} filteredPosts={filteredPosts} setFilteredPosts={setFilteredPosts} allPosts={allPosts} setAllPosts={setAllPosts} currentUserEmail={currentUser.email} />}
+        {currentSelectedPost && <SinglePostWindow token={token} generalDataAndTools={{ ...generalDataAndTools }} post={currentSelectedPost} setCurrentSelectedPost={setCurrentSelectedPost} filteredPosts={filteredPosts} setFilteredPosts={setFilteredPosts} allPosts={allPosts} setAllPosts={setAllPosts} currentUserEmail={currentUser.email} />}
         {isAddPostWindowShow &&
-          <AddWindow setIsAddWindowShow={setIsAddPostWindowShow} baseItem={{
+          <AddWindow token={token} setIsAddWindowShow={setIsAddPostWindowShow} baseItem={{
             userId: currentUser.id,
             title: '',
             body: ''

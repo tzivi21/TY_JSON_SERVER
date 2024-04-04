@@ -75,26 +75,5 @@ app.put('/:id', async (req, res) => {
     }
 });
 
-//אין צורך במחיקה של ססמא כי היא אוטומטית נמחקת כשהמשתמש נמחק
-
-// app.delete('/:id', async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         if(!PasswordsController.getPasswordById(id)) {
-//             res.status(404).json({ error: "password not found" });
-//             res.end();
-//         }
-//         else {
-//             await PasswordsController.deletePassword(id);
-//             res.status(200).json({});
-//             res.end();
-//         }
-//     } catch (error) {
-//         res.status(500).json({ error: "server internal error" });
-//         res.end();
-//     }
-// });
-
-
 module.exports = app; 
 

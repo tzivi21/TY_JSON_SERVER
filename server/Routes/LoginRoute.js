@@ -18,6 +18,7 @@ router.post("/", async (req, res) => {
     else {
         const user = await UsersController.getUserById(req.body.userId);
         res.setHeader('Authentication-Token', token);
+        res.setHeader("Access-Control-Expose-Headers", "*");
         res.status(200).json(user);
         res.end();
     }

@@ -3,7 +3,7 @@ import { useLocation, useOutletContext, useParams } from 'react-router-dom'
 import UpdateWindow from "../../../components/UpdateWindow"
 import AddWindow from "../../../components/AddWindow"
 import styles from '../../../css/Posts.module.css'
-function Comments() {
+function Comments({token}) {
 
     const [comments, setComments] = useState([]);
     const [isGotComments, setIsGotComments] = useState(false);
@@ -48,13 +48,13 @@ function Comments() {
                                 </tr>
                             );
                         })}
-                        {currentUpdated && <UpdateWindow url={`comments/${currentUpdated.id}`} oldItem={currentUpdated} setOldItem={setCurrentUpdated} filteredItems={comments} setFilteredItems={setComments} propertiesArr={['name', 'body']} />}
+                        {currentUpdated && <UpdateWindow token={token} url={`comments/${currentUpdated.id}`} oldItem={currentUpdated} setOldItem={setCurrentUpdated} filteredItems={comments} setFilteredItems={setComments} propertiesArr={['name', 'body']} />}
                     </tbody>
                 </table>
             </>
             }
             {isAddCommentWindowShow && 
-            <AddWindow setIsAddWindowShow={setIsAddCommentWindowShow} baseItem={{
+            <AddWindow token={token} setIsAddWindowShow={setIsAddCommentWindowShow} baseItem={{
                 postId: currentPostId,
                 name: '',
                 email:currentUserEmail,

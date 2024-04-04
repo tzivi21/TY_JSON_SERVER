@@ -69,7 +69,6 @@ async function getUserById(id) {
         const connection = Connect();
         const sql = `SELECT * FROM Users WHERE id = ?`;
         connection.query(sql, [id], (err, result) => {
-            console.log(result);
             connection.end();
             if (err) {
                 reject(err);

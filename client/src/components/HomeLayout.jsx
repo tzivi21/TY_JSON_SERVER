@@ -3,11 +3,16 @@ import Header from './Header'
 import Footer from './Footer'
 import { Outlet } from 'react-router-dom'
 import styles from '../css/HomeLayout.module.css'
-function HomeLayout() {
+function HomeLayout({token}) {
 
   async function getItemsFunc(url, setListOfItems, setStatusForScreen, setListOfAllItems = null) {
     try {
-      const response = await fetch(`http://localhost:3000/${url}`);
+      const response = await fetch(`http://localhost:3000/${url}`, {
+        method: 'GET',
+        headers: {
+          "Authentication-Token": token,
+        }
+      });
       if (!response.ok) {
         throw response.statusText;
       }
@@ -30,6 +35,8 @@ function HomeLayout() {
           method: "DELETE",
           headers: {
             "Content-type": "application/json",
+            "Authentication-Token": token
+
           },
 
         });

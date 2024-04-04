@@ -2,7 +2,7 @@ import { React, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from '../css/Login.module.css'
 
-function Login() {
+function Login({setToken}) {
 
   const navigate = useNavigate();
   const [input, setInput] = useState({ userId: '', password: '' });
@@ -16,7 +16,7 @@ function Login() {
         const response = await fetch("http://localhost:3000/login", {
           method: "POST",
           headers: {
-            "Content-type": "application/json",
+             "Content-type": "application/json",
           },
           body: JSON.stringify(input),
         });
@@ -24,8 +24,10 @@ function Login() {
           throw response.statusText;
         }
         const data = await response.json();
+        const token = response.headers.get('Authentication-Token');
         if (data.length != 0) {
           localStorage.setItem("currentUser", JSON.stringify(data));
+          setToken(token);
           navigate(`/users/${data.id}/home`)
         }
         else {
@@ -49,8 +51,6 @@ function Login() {
         <input value={input.password} onChange={(e) => setInput({ ...input, password: e.target.value })} type="Password" placeholder='*********' required />
         <button type='submit'>Submit</button>
         <br />
-        <span>Don't have an account?</span>
-        <Link to='/signup'> Please sign up</Link>
       </form>
     </>
   )

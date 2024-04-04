@@ -18,20 +18,6 @@ async function createPassword(passwordData) {
     });
 }
 
-async function deletePassword(id) {
-    return new Promise((resolve, reject) => {
-        const connection = Connect();
-        const sql = `DELETE FROM Passwords WHERE id = ?`;
-        connection.query(sql, [id], (err, result) => {
-            connection.end();
-            if (err) {
-                reject(new Error(`Error deleting password of id:${id}` + err));
-            } else {
-                resolve();
-            }
-        });
-    });
-}
 
 async function updatePassword(updatedPasswordData) {
     return new Promise((resolve, reject) => {
@@ -83,6 +69,5 @@ module.exports = {
    createPassword,
    getAllPasswords,
    getPasswordById,
-   deletePassword,
    updatePassword
 };

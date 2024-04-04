@@ -26,7 +26,7 @@ function SinglePostWindow({ generalDataAndTools, post, setCurrentSelectedPost, f
                 <button onClick={() => setCurrentUpdated(currentPost)}>✏️</button>
                 <button onClick={() => navigate(`${currentPost.id}/comments`)}>comments</button>
             </div>
-            {currentUpdated && <UpdateWindow url={`posts/${currentUpdated.id}`} oldItem={currentUpdated} setOldItem={setCurrentUpdated} filteredItems={filteredPosts} setFilteredItems={setFilteredPosts} allItems={allPosts} setAllItems={setAllPosts} propertiesArr={['title', 'body']} setItemInAdditionalWindow= {setCurrentPost}/>}
+            {currentUpdated && <UpdateWindow token={token} url={`posts/${currentUpdated.id}`} oldItem={currentUpdated} setOldItem={setCurrentUpdated} filteredItems={filteredPosts} setFilteredItems={setFilteredPosts} allItems={allPosts} setAllItems={setAllPosts} propertiesArr={['title', 'body']} setItemInAdditionalWindow= {setCurrentPost}/>}
         </div>
     )
 }

@@ -25,9 +25,6 @@ const PasswordsController = {
     },
 
    
-    deletePassword: async (id) => {
-        await DB_actions.deletePassword(id);
-    }
 };
 
 module.exports = PasswordsController;

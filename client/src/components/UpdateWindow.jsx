@@ -11,6 +11,7 @@ function UpdateCommentWindow({
   setAllItems,
   propertiesArr,
   setItemInAdditionalWindow,
+  token
 }) {
   const [newItem, setNewItem] = useState({ ...oldItem });
 
@@ -22,6 +23,7 @@ function UpdateCommentWindow({
           method: "PUT",
           headers: {
             "Content-type": "application/json",
+            "Authentication-Token": token
           },
           body: JSON.stringify(newItem),
         });

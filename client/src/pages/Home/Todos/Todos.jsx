@@ -4,7 +4,7 @@ import Filters from "../../../components/Filters";
 import TodosTable from "./TodosTable";
 import AddWindow from "../../../components/AddWindow";
 import styles from "../../../css/Todos.module.css"
-function Todos() {
+function Todos({token}) {
 
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [allTodos, setAllTodos] = useState([])
@@ -56,9 +56,9 @@ function Todos() {
         </select>
         <button onClick={() => setIsShowAddTodoWindow(true)}>Add Todo ➕</button>
         {!isGotTodos && <h3>Loading...</h3>}
-        {isGotTodos && <TodosTable currentSortType={currentSortType} generalDataAndTools={generalDataAndTools} filteredTodos={filteredTodos} setFilteredTodos={setFilteredTodos} allTodos={allTodos} setAllTodos={setAllTodos} sortCurrentTodos={sortCurrentTodos} />}
+        {isGotTodos && <TodosTable token={token} currentSortType={currentSortType} generalDataAndTools={generalDataAndTools} filteredTodos={filteredTodos} setFilteredTodos={setFilteredTodos} allTodos={allTodos} setAllTodos={setAllTodos} sortCurrentTodos={sortCurrentTodos} />}
         {isShowAddTodoWindow &&
-          <AddWindow setIsAddWindowShow={setIsShowAddTodoWindow} baseItem={{
+          <AddWindow token={token} setIsAddWindowShow={setIsShowAddTodoWindow} baseItem={{
             userId: currentUser.id,
             title: '',
             completed: false

@@ -10,18 +10,17 @@ const LoginController = require('../Controllers/LoginController');
 
 app.use('/login', LoginRoute);
 
-// app.use((req, res, next) => {
-//     try {
-//         console.log(req.headers.authenticationToken);
-//         if(LoginController.validateToken(req.headers.authenticationToken))
-//             next();
-//         else {
-//             res.status(404).json({'error': 'invalid token'});
-//         }
-//     } catch {
-//         res.status(500).json({'error': 'internal server error'});
-//     }
-// })
+app.use((req, res, next) => {
+    try {
+        if(LoginController.validateToken(req.get('Authentication-Token')))
+            next();
+        else {
+            res.status(404).json({'error': 'invalid token'});
+        }
+    } catch {
+        res.status(500).json({'error': 'internal server error'});
+    }
+})
 
 app.use('/users', UsersRoutes);
 app.use('/todos', TodosRoutes);
