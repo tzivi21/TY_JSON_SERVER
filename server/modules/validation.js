@@ -45,7 +45,7 @@ function validateTodoInput(todo, isIdRequired = false) {
   // Check if userId is a non-negative integer
   if (typeof todo.userId !== "number" || !Number.isInteger(todo.userId) || todo.userId < 0) return false;
 
- 
+
   return true;
 }
 
@@ -90,14 +90,18 @@ function validateCommentInput(comment, isIdRequired = false) {
   // Check if name is a non-empty string
   if (typeof comment.name !== "string" || comment.name.trim() === "") return false;
 
+  if (typeof comment.postId == "string") {
+    return true;
+  }
+
   // Check if postId is a non-negative integer
   if (typeof comment.postId !== "number" || !Number.isInteger(comment.postId) || comment.postId < 0) return false;
 
   // Check if username is a non-empty string
   if (typeof comment.body !== "string" || comment.body.trim() === "") return false;
 
-   // Check if email is valid
-   if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z]{2,}$/.test(comment.email)) return false;
+  // Check if email is valid
+  if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z]{2,}$/.test(comment.email)) return false;
 
   return true;
 }
@@ -122,7 +126,7 @@ function validatePasswordInput(password, isIdRequired = true) {
 }
 
 function validateLoginInput(body) {
-  
+
   if (!body || typeof body !== "object") return false;
 
   // Check for required fields

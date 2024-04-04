@@ -58,7 +58,7 @@ function Comments() {
                 postId: currentPostId,
                 name: '',
                 email:currentUserEmail,
-                body: ''}} propertiesArr={["name", "body"]} url= {`posts/${currentPostId}/comments`} setFilteredItems={setComments}/>
+                body: ''}} propertiesArr={["name", "body"]} url= {`comments`} setFilteredItems={setComments}/>
             }
         </>
     )

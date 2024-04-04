@@ -25,7 +25,7 @@ const PostsController = {
     },
 
     getPostComments:async (id) => {
-        await DB_actions.getPostComments(id);
+        return await DB_actions.getPostComments(id);
     }
 };
 
