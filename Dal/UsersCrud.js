@@ -38,7 +38,6 @@ async function updateUser(updatedUserData) {
         const connection = Connect();
         const sql = 'UPDATE Users SET ? WHERE id = ?';
         connection.query(sql, [updatedUserData, updatedUserData.id], async (err, result) => {
-            console.log(result);
             connection.end();
             if (err) {
                 reject(new Error('Error updating user:' + err));

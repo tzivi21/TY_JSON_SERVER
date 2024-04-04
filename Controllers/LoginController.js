@@ -1,32 +1,36 @@
 const DB_actions = require('../Dal/PasswordsCrud');
-const validation = require('../modules/validation');
 const crypto = require('crypto');
 
 const tokens = [];
 
 
-const LogInController = {
-    createToken: async (req, res) => {
+
+    const authenticateUser =  async (body) => {
         let password = await DB_actions.getPasswordById(body.userId);
-        if (password === req.body.password) {
-            const randomString = crypto.randomBytes(32).toString('hex');
-            const timestamp = Math.floor(Date.now() / 1000); 
-            const tokenData = `${randomString}.${timestamp}`;
-            const token = crypto.createHash('sha256').update(tokenData).digest('hex');
-            // const token = Math.random().toString();
-            tokens.push(token);
-            return token;
+        if (password.password == body.password) {
+            return createToken();
         }
         else {
-            return null;
+            return false;
         }
-    },
+    }
 
-    validateToken: (recievedToken) => {
+    const createToken = () => {
+        const randomString = crypto.randomBytes(32).toString('hex');
+        const timestamp = Math.floor(Date.now() / 1000); 
+        const tokenData = `${randomString}.${timestamp}`;
+        const token = crypto.createHash('sha256').update(tokenData).digest('hex');
+        tokens.push(token);
+        return token;
+    }
+
+   const validateToken = (recievedToken) => {
         return tokens.find(t => t == recievedToken) ? true : false;
     }
 
+module.exports = {
+    authenticateUser,
+    createToken,
+    validateToken
 };
-
-module.exports = LogInController;
 

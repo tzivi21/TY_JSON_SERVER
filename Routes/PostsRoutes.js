@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express.Router();
 const PostsController = require("../Controllers/PostsController");
+const CommentsController = require("../Controllers/CommentsController");
 const validation = require('../modules/validation');
 
 
@@ -103,6 +104,29 @@ app.get('/:id/comments', async (req, res) => {
         let comments = await PostsController.getPostComments(id);
         res.status(200).json(comments);
         res.end();
+    } catch (error) {
+        res.status(500).json({ error: "server internal error" });
+        res.end();
+    }
+});
+
+app.post('/:id/comments', async (req, res) => {
+    try {
+        const { id } = req.params;
+        if(await PostsController.getPostById(id)==null) {
+            res.status(404).json({ error: "post not found" });
+            res.end();
+        }
+        const comment  = req.body;
+        if(!validation.validateCommentInput(comment)){
+            res.status(400).json({ error: 'invalid input' });
+            res.end();
+        }
+        else {
+            const newComment = await CommentsController.createComment(comment);
+            res.status(200).json(newComment); 
+            res.end();
+        }
     } catch (error) {
         res.status(500).json({ error: "server internal error" });
         res.end();

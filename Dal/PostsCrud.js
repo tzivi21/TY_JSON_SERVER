@@ -6,12 +6,13 @@ async function createPost(postData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
         const sql = 'INSERT INTO Posts SET ?';
-        connection.query(sql, postData, (err, result) => {
+        connection.query(sql, postData, async (err, result) => {
             connection.end();
             if (err) {
                 reject(new Error('Error inserting new post:' + err));
             } else {
-                resolve(result.insertId);
+                newPost = await getPostById(result.insertId);
+                resolve(newPost);
             }
         });
     });
@@ -81,7 +82,7 @@ async function getPostById(id) {
 async function getPostComments(id) {
     return new Promise((resolve, reject) => {
        const connection = Connect();
-       const sql = `SELECT * FROM Comments WHERE post_id = ?`;
+       const sql = `SELECT * FROM Comments WHERE postId = ?`;
        connection.query(sql,[id], (err, result) => {
            connection.end();
            if (err) {

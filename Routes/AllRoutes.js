@@ -8,7 +8,7 @@ const PasswordsRoutes = require('./PasswordsRouter');
 const LoginRoute = require('./LoginRoute');
 const LoginController = require('../Controllers/LoginController');
 
-app.use('login', LoginRoute);
+app.use('/login', LoginRoute);
 
 // app.use((req, res, next) => {
 //     try {
@@ -22,6 +22,7 @@ app.use('login', LoginRoute);
 //         res.status(500).json({'error': 'internal server error'});
 //     }
 // })
+
 app.use('/users', UsersRoutes);
 app.use('/todos', TodosRoutes);
 app.use('/posts', PostsRoutes);

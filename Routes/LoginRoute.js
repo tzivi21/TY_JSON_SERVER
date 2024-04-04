@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const LoginController = require("../Controllers/LoginController");
 const validation = require("../modules/validation");
+const UsersController = require("../Controllers/UsersController");
 
 router.post("/", async (req, res) => {
   try {
@@ -9,14 +10,15 @@ router.post("/", async (req, res) => {
       res.status(400).json({ error: "invalid input" });
       res.end();
     }
-    const token = LoginController.createToken();
-    if(!token) {
+    const token = await LoginController.authenticateUser(req.body);    
+    if(token == false) {
         res.status(404).json({'error': 'invalid user id or password'})
         res.end();
     }
     else {
-        res.status(200)
+        const user = await UsersController.getUserById(req.body.userId);
         res.setHeader('Authentication-Token', token);
+        res.status(200).json(user);
         res.end();
     }
 

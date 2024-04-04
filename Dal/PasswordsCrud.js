@@ -6,12 +6,13 @@ async function createPassword(passwordData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
         const sql = 'INSERT INTO Passwords SET ?';
-        connection.query(sql, passwordData, (err, result) => {
+        connection.query(sql, passwordData, async (err, result) => {
             connection.end();
             if (err) {
                 reject(new Error('Error inserting new password:' + err));
             } else {
-                resolve(result.insertId);
+                newPassword = await getPasswordById(result.insertId);
+                resolve(newPassword);      
             }
         });
     });

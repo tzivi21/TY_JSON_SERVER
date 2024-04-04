@@ -6,12 +6,13 @@ async function createTodo(todoData) {
     return new Promise((resolve, reject) => {
         const connection = Connect();
         const sql = 'INSERT INTO Todos SET ?';
-        connection.query(sql, todoData, (err, result) => {
+        connection.query(sql, todoData, async (err, result) => {
             connection.end();
             if (err) {
                 reject(new Error('Error inserting new todo:' + err));
             } else {
-                resolve(result.insertId);
+                newTodo = await getTodoById(result.insertId);
+                resolve(newTodo);
             }
         });
     });

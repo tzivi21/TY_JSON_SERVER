@@ -31,9 +31,9 @@ function validateTodoInput(todo, isIdRequired = false) {
 
   // Check for required fields
   const requiredFields = ["userId", "title", "completed"];
-  if (isIdRequired) {
-    requiredFields.push("id");
-  }
+  // if (isIdRequired) {
+  //   requiredFields.push("id");
+  // }
 
   requiredFields.forEach((field) => {
     if (!(field in todo)) return false;
@@ -45,8 +45,6 @@ function validateTodoInput(todo, isIdRequired = false) {
   // Check if userId is a non-negative integer
   if (typeof todo.userId !== "number" || !Number.isInteger(todo.userId) || todo.userId < 0) return false;
 
-  // Check if completed is a boolean value
-  if(typeof todo.completed !== "boolean") return false;
  
   return true;
 }
@@ -110,7 +108,7 @@ function validatePasswordInput(password, isIdRequired = true) {
   // Check for required fields
   const requiredFields = ["password"];
   if (isIdRequired) {
-    requiredFields.push("id");
+    requiredFields.push("userId");
   }
 
   requiredFields.forEach((field) => {
